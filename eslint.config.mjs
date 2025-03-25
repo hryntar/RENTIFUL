@@ -97,7 +97,7 @@ const eslintConfig = [
         {
           callbacksLast: true,
           shorthandFirst: true,
-          noSortAlphabetically: false,
+          noSortAlphabetically: true,
           reservedFirst: true,
         },
       ],
