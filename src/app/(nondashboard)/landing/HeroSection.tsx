@@ -25,7 +25,7 @@ const HeroSection = () => {
         className="absolute top-1/3 transform -translate-y-1/2 text-center w-full"
       >
         <div className="max-w-4xl mx-auto px-16 sm:px-12">
-          <h1 className="text-5xl font-bold text-white mb-4">
+          <h1 className="text-5xl font-bold text-white mb-4 lead">
             Start your journey to finding the perfect place to call home
           </h1>
           <p className="text-xl text-white mb-8">

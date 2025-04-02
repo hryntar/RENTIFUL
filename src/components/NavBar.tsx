@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import {NAVBAR_HEIGHT} from "@/lib/constants";
+
 import {Button} from "./ui/button";
 
 const NavBar = () => {
