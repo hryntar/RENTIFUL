@@ -1,7 +1,7 @@
-import {dirname} from "path";
-import {fileURLToPath} from "url";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
-import {FlatCompat} from "@eslint/eslintrc";
+import { FlatCompat } from "@eslint/eslintrc";
 import eslintConfigPrettier from "eslint-config-prettier";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -101,6 +101,7 @@ const eslintConfig = [
           reservedFirst: true,
         },
       ],
+      "object-curly-spacing": ["error", "always"],
       "padding-line-between-statements": [
         "warn",
         {
