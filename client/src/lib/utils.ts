@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {clsx, type ClassValue} from "clsx";
-import {twMerge} from "tailwind-merge";
-import {toast} from "sonner";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+import { toast } from "sonner";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -40,7 +40,7 @@ type MutationMessages = {
 };
 
 export const withToast = async <T>(mutationFn: Promise<T>, messages: Partial<MutationMessages>) => {
-  const {success, error} = messages;
+  const { success, error } = messages;
 
   try {
     const result = await mutationFn;

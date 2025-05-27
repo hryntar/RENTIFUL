@@ -60,6 +60,7 @@ const eslintConfig = [
       "unused-imports/no-unused-vars": "off",
       "unused-imports/no-unused-imports": "warn",
       "object-curly-spacing": ["error", "never"],
+      "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
