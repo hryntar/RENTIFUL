@@ -6,24 +6,18 @@ import {
   useFieldArray,
   Control,
 } from "react-hook-form";
-import {Edit, X, Plus} from "lucide-react";
-import {registerPlugin} from "filepond";
-import {FilePond} from "react-filepond";
+import { Edit, X, Plus } from "lucide-react";
+import { registerPlugin } from "filepond";
+import { FilePond } from "react-filepond";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 
-import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "./ui/form";
-import {Input} from "./ui/input";
-import {Button} from "./ui/button";
-import {Textarea} from "./ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
-import {Switch} from "./ui/switch";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Switch } from "./ui/switch";
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
@@ -43,7 +37,7 @@ interface FormFieldProps {
     | "file"
     | "multi-input";
   placeholder?: string;
-  options?: {value: string; label: string}[];
+  options?: { value: string; label: string }[];
   accept?: string;
   className?: string;
   labelClassName?: string;
@@ -70,7 +64,7 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
   isIcon = false,
   initialValue,
 }) => {
-  const {control} = useFormContext();
+  const { control } = useFormContext();
 
   const renderFormControl = (field: ControllerRenderProps<FieldValues, string>) => {
     switch (type) {
@@ -171,7 +165,7 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
       control={control}
       defaultValue={initialValue}
       name={name}
-      render={({field}) => (
+      render={({ field }) => (
         <FormItem className={`${type !== "switch" && "rounded-md"} relative ${className}`}>
           {type !== "switch" && (
             <div className="flex justify-between items-center">
@@ -207,7 +201,7 @@ const MultiInputField: React.FC<MultiInputFieldProps> = ({
   placeholder,
   inputClassName,
 }) => {
-  const {fields, append, remove} = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name,
   });
@@ -219,7 +213,7 @@ const MultiInputField: React.FC<MultiInputFieldProps> = ({
           <FormField
             control={control}
             name={`${name}.${index}`}
-            render={({field}) => (
+            render={({ field }) => (
               <FormControl>
                 <Input
                   {...field}
