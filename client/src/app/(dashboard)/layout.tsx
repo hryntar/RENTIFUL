@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 import NavBar from "@/components/NavBar";
 import { NAVBAR_HEIGHT } from "@/lib/constants";
@@ -9,7 +10,29 @@ import Sidebar from "@/components/AppSidebar";
 import { useGetAuthUserQuery } from "@/state/api";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const { data: authUser } = useGetAuthUserQuery();
+  const { data: authUser, isLoading: authLoading } = useGetAuthUserQuery();
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (authUser) {
+      const userRole = authUser.userRole?.toLowerCase();
+
+      if (
+        (userRole === "manager" && pathname.startsWith("/tenants")) ||
+        (userRole === "tenant" && pathname.startsWith("/managers"))
+      ) {
+        router.push(userRole === "manager" ? "/managers/properties" : "/tenants/favorites", {
+          scroll: false,
+        });
+      } else {
+        setIsLoading(false);
+      }
+    }
+  }, [authUser, router, pathname]);
+
+  if (authLoading || isLoading) return <>Loading...</>;
 
   if (!authUser?.userRole) return null;
 
