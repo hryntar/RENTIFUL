@@ -1,10 +1,9 @@
-"use client";
-
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { SettingsFormData, settingsSchema } from "@/lib/schemas";
+
 import { Form } from "./ui/form";
 import { CustomFormField } from "./FormField";
 import { Button } from "./ui/button";
@@ -44,22 +43,22 @@ const SettingsForm = ({ initialData, onSubmit, userType }: SettingsFormProps) =>
             <CustomFormField name="name" label="Name" disabled={!editMode} />
             <CustomFormField name="email" label="Email" disabled={!editMode} type="email" />
             <CustomFormField name="phoneNumber" label="Phone Number" disabled={!editMode} />
-          </form>
 
-          <div className="pt-4 flex justify-between">
-            <Button
-              type="button"
-              className="bg-secondary-500 text-white hover:bg-secondary-600"
-              onClick={toggleEditMode}
-            >
-              {editMode ? "Cancel" : "Edit"}
-            </Button>
-            {editMode && (
-              <Button type="submit" className="bg-primary-700 text-white hover:bg-primary-800">
-                Save Changes
+            <div className="pt-4 flex justify-between">
+              <Button
+                type="button"
+                className="bg-secondary-500 text-white hover:bg-secondary-600"
+                onClick={toggleEditMode}
+              >
+                {editMode ? "Cancel" : "Edit"}
               </Button>
-            )}
-          </div>
+              {editMode && (
+                <Button type="submit" className="bg-primary-700 text-white hover:bg-primary-800">
+                  Save Changes
+                </Button>
+              )}
+            </div>
+          </form>
         </Form>
       </div>
     </div>

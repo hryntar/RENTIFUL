@@ -86,7 +86,7 @@ const AppSidebar = ({ userType }: AppSidebarProps) => {
                   asChild
                   className={cn(
                     "flex items-center py-7 px-7",
-                    isActive ? "bg-gray-600 text-white" : "hover:bg-gray-100 text-gray-600",
+                    isActive ? "bg-gray-100 text-white" : "hover:bg-gray-100 text-gray-600",
                     open ? "text-blue-600" : "ml-[5px]",
                   )}
                 >
