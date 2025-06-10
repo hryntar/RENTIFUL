@@ -10,6 +10,7 @@ import tenantRoutes from "./routes/tenantRoutes";
 import managerRoutes from "./routes/managerRoutes";
 import propertyRoutes from "./routes/propertyRoutes";
 import leaseRoutes from "./routes/leaseRoutes";
+import applicationRoutes from "./routes/applicationRoutes";
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -32,6 +33,7 @@ app.use("/properties", propertyRoutes);
 app.use("/tenants", authMiddleware(["tenant"]), tenantRoutes);
 app.use("/managers", authMiddleware(["manager"]), managerRoutes);
 app.use("/leases", authMiddleware(["manager", "tenant"]), leaseRoutes);
+app.use("/applications", applicationRoutes);
 
 /* SERVER SETUP */
 const PORT = process.env.PORT || 3002;
