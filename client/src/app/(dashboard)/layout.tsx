@@ -10,7 +10,7 @@ import Sidebar from "@/components/AppSidebar";
 import { useGetAuthUserQuery } from "@/state/api";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const { data: authUser, isLoading: authLoading } = useGetAuthUserQuery();
+  const { data: authUser, isLoading: authLoading, error: authError } = useGetAuthUserQuery();
   const router = useRouter();
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(true);
@@ -29,8 +29,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       } else {
         setIsLoading(false);
       }
+    } else if (authError && !authLoading) {
+      setIsLoading(false);
     }
-  }, [authUser, router, pathname]);
+  }, [authUser, authError, authLoading, router, pathname]);
 
   if (authLoading || isLoading) return <>Loading...</>;
 

@@ -32,6 +32,7 @@ export const api = createApi({
           const endpoint = userRole === "manager" ? `/managers/${user.userId}` : `/tenants/${user.userId}`;
 
           let userDetailsResponse = await fetchWithBQ(endpoint);
+          console.log("userDetailsResponse",userDetailsResponse);
 
           // if no user details, create a new user
           if (userDetailsResponse.error && userDetailsResponse.error.status === 404) {
