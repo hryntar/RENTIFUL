@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { debounce } from "lodash";
 import { Filter, Grid, List, Search } from "lucide-react";
 
 import { useAppDispatch, useAppSelector } from "@/state/redux";
-import { FiltersState, setFilters, setViewMode, toggleFiltersFullOpen } from "@/state";
-import { cleanParams, cn, formatPriceValue } from "@/lib/utils";
+import { setFilters, setViewMode, toggleFiltersFullOpen } from "@/state";
+import { cn, formatPriceValue, updateURL } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -24,16 +23,16 @@ const FiltersBar = () => {
   const { filters, isFiltersFullOpen, viewMode } = useAppSelector((state) => state.global);
   const [searchInput, setSearchInput] = useState(filters.location);
 
-  const updateURL = debounce((newFilters: FiltersState) => {
-    const cleanFilters = cleanParams(newFilters);
-    const updatedSearchParams = new URLSearchParams();
+  // const updateURL = debounce((newFilters: FiltersState) => {
+  //   const cleanFilters = cleanParams(newFilters);
+  //   const updatedSearchParams = new URLSearchParams();
 
-    Object.entries(cleanFilters).forEach(([key, value]) => {
-      updatedSearchParams.set(key, Array.isArray(value) ? value.join(",") : value.toString());
-    });
+  //   Object.entries(cleanFilters).forEach(([key, value]) => {
+  //     updatedSearchParams.set(key, Array.isArray(value) ? value.join(",") : value.toString());
+  //   });
 
-    router.push(`${pathname}?${updatedSearchParams.toString()}`);
-  });
+  //   router.push(`${pathname}?${updatedSearchParams.toString()}`);
+  // });
 
   const handleFilterChange = (key: string, value: any, isMin: boolean | null) => {
     let newValue = value;
@@ -60,7 +59,7 @@ const FiltersBar = () => {
     };
 
     dispatch(setFilters(newFilters));
-    updateURL(newFilters);
+    updateURL(newFilters, router, pathname);
   };
 
   return (
@@ -160,7 +159,6 @@ const FiltersBar = () => {
               <SelectItem value="1">1+ bath</SelectItem>
               <SelectItem value="2">2+ baths</SelectItem>
               <SelectItem value="3">3+ baths</SelectItem>
-              <SelectItem value="4">4+ baths</SelectItem>
             </SelectContent>
           </Select>
         </div>

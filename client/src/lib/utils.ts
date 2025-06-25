@@ -2,6 +2,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { toast } from "sonner";
+import { debounce } from "lodash";
+import { FiltersState } from "@/state";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -53,6 +55,17 @@ export const withToast = async <T>(mutationFn: Promise<T>, messages: Partial<Mut
     throw err;
   }
 };
+
+export const updateURL = debounce((newFilters: FiltersState, router: any, pathname: any) => {
+  const cleanFilters = cleanParams(newFilters);
+  const updatedSearchParams = new URLSearchParams();
+
+  Object.entries(cleanFilters).forEach(([key, value]) => {
+    updatedSearchParams.set(key, Array.isArray(value) ? value.join(",") : value.toString());
+  });
+
+  router.push(`${pathname}?${updatedSearchParams.toString()}`);
+});
 
 export const createNewUserInDatabase = async (
   user: any,
