@@ -131,7 +131,7 @@ export const getProperties = async (req: Request, res: Response): Promise<void> 
             'postalCode', l."postalCode",
             'coordinates', json_build_object(
                'longitude', ST_X(l."coordinates"::geometry),
-               'latitude', ST_Y(l."coordinates"::geometry),
+               'latitude', ST_Y(l."coordinates"::geometry)
             )
          ) as location
       FROM "Property" p
