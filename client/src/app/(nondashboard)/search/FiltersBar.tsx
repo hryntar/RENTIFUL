@@ -23,17 +23,6 @@ const FiltersBar = () => {
   const { filters, isFiltersFullOpen, viewMode } = useAppSelector((state) => state.global);
   const [searchInput, setSearchInput] = useState(filters.location);
 
-  // const updateURL = debounce((newFilters: FiltersState) => {
-  //   const cleanFilters = cleanParams(newFilters);
-  //   const updatedSearchParams = new URLSearchParams();
-
-  //   Object.entries(cleanFilters).forEach(([key, value]) => {
-  //     updatedSearchParams.set(key, Array.isArray(value) ? value.join(",") : value.toString());
-  //   });
-
-  //   router.push(`${pathname}?${updatedSearchParams.toString()}`);
-  // });
-
   const handleFilterChange = (key: string, value: any, isMin: boolean | null) => {
     let newValue = value;
 

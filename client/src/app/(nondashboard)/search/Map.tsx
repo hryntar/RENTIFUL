@@ -5,6 +5,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useAppSelector } from "@/state/redux";
 import { useGetPropertiesQuery } from "@/state/api";
+import { Property } from "@/types/prismaTypes";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
@@ -13,6 +14,8 @@ const Map = () => {
   const filters = useAppSelector((state) => state.global.filters);
   const isFiltersFullOpen = useAppSelector((state) => state.global.isFiltersFullOpen);
   const { data: properties, isLoading, isError } = useGetPropertiesQuery(filters);
+
+  console.log(properties);
 
   useEffect(() => {
     if (isLoading || isError || !properties) return;
@@ -24,19 +27,28 @@ const Map = () => {
       zoom: 9,
     });
 
+    properties.forEach((property) => {
+      const marker = createPropertyMarker(property, map);
+      const markerElement = marker.getElement();
+      const path = markerElement.querySelector("path[fill='#3FB1CE']");
+
+      if (path) path.setAttribute("fill", "#000000");
+    });
+
     const resizeMap = () => {
       setTimeout(() => {
         map.resize();
       }, 700);
     };
-    
-    resizeMap();
 
-    map.on("load", resizeMap);
-    window.addEventListener("resize", resizeMap);
+    resizeMap();
 
     return () => map.remove();
   });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error</div>;
+  if (!properties) return <div>No properties found</div>;
 
   return (
     <div className="basis-5/12 grow relative rounded-xl">
@@ -47,6 +59,23 @@ const Map = () => {
       />
     </div>
   );
+};
+
+const createPropertyMarker = (property: Property, map: mapboxgl.Map) => {
+  const marker = new mapboxgl.Marker()
+    .setLngLat([property.location.coordinates.longitude, property.location.coordinates.latitude])
+    .setPopup(new mapboxgl.Popup().setHTML(
+      `<div class="marker-popup">
+          <div class="marker-popup-image"></div>
+          <div>
+            <a href="/search/${property.id}" target="_blank" class="marker-popup-title">${property.name}</a>
+            <p class="marker-popup-price">$${property.pricePerMonth} <span class="marker-popup-price-unit"> / month</span></p>
+          </div>
+      </div>`
+    ))
+    .addTo(map);
+
+  return marker;
 };
 
 export default Map;
