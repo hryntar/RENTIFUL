@@ -12,10 +12,7 @@ mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 const Map = () => {
   const mapContainerRef = useRef(null);
   const filters = useAppSelector((state) => state.global.filters);
-  const isFiltersFullOpen = useAppSelector((state) => state.global.isFiltersFullOpen);
   const { data: properties, isLoading, isError } = useGetPropertiesQuery(filters);
-
-  console.log(properties);
 
   useEffect(() => {
     if (isLoading || isError || !properties) return;

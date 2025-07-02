@@ -58,15 +58,7 @@ export const api = createApi({
       }
     }),
 
-    updateTenantSettings: build.mutation<Tenant, { cognitoId: string } & Partial<Tenant>>({
-      query: ({ cognitoId, ...updatedTenant }) => ({
-        url: `/tenants/${cognitoId}`,
-        method: "PUT",
-        body: updatedTenant
-      }),
-      invalidatesTags: (result) => [{ type: "Tenants", id: result?.id }]
-    }),
-
+    // manager related endpoints
     updateManagerSettings: build.mutation<Manager, { cognitoId: string } & Partial<Manager>>({
       query: ({ cognitoId, ...updatedManager }) => ({
         url: `/managers/${cognitoId}`,
@@ -97,13 +89,45 @@ export const api = createApi({
 
         return { url: "properties", params };
       },
-      providesTags: (result) => 
-        result 
-        ? [
-          ...result.map(({ id }) => ({ type: "Properties" as const, id })),
-          { type: "Properties", id: "LIST" }
-        ] 
-        : [{ type: "Properties", id: "LIST" }]
+      providesTags: (result) =>
+        result
+          ? [
+            ...result.map(({ id }) => ({ type: "Properties" as const, id })),
+            { type: "Properties", id: "LIST" }
+          ]
+          : [{ type: "Properties", id: "LIST" }]
+    }),
+
+    // tenant related endpoints
+    updateTenantSettings: build.mutation<Tenant, { cognitoId: string } & Partial<Tenant>>({
+      query: ({ cognitoId, ...updatedTenant }) => ({
+        url: `/tenants/${cognitoId}`,
+        method: "PUT",
+        body: updatedTenant
+      }),
+      invalidatesTags: (result) => [{ type: "Tenants", id: result?.id }]
+    }),
+
+    addFavoriteProperty: build.mutation<Tenant, { cognitoId: string, propertyId: number }>({
+      query: ({ cognitoId, propertyId }) => ({
+        url: `tenants/${cognitoId}/favorites/${propertyId}`,
+        method: "POST"
+      }),
+      invalidatesTags: (result) => [
+        { type: "Tenants", id: result?.id },
+        { type: "Properties", id: "LIST" }
+      ]
+    }),
+
+    removeFavoriteProperty: build.mutation<Tenant, { cognitoId: string, propertyId: number }>({
+      query: ({ cognitoId, propertyId }) => ({
+        url: `tenants/${cognitoId}/favorites/${propertyId}`,
+        method: "DELETE"
+      }),
+      invalidatesTags: (result) => [
+        { type: "Tenants", id: result?.id },
+        { type: "Properties", id: "LIST" }
+      ]
     })
   }),
 });
@@ -112,5 +136,7 @@ export const {
   useGetAuthUserQuery,
   useUpdateTenantSettingsMutation,
   useUpdateManagerSettingsMutation,
-  useGetPropertiesQuery
+  useGetPropertiesQuery,
+  useAddFavoritePropertyMutation,
+  useRemoveFavoritePropertyMutation
 } = api;
