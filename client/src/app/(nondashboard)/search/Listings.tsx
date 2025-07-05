@@ -10,6 +10,7 @@ import {
 import { useAppSelector } from "@/state/redux";
 import { Property } from "@/types/prismaTypes";
 import Card from "@/components/Card";
+import CompactCard from "@/components/CompactCard";
 
 const Listings = () => {
   const { data: authUser } = useGetAuthUserQuery();
@@ -60,7 +61,7 @@ const Listings = () => {
                 onFavoriteToggle={() => handleFavoriteToggle(property.id)}
               />
             ) : (
-              <Card
+              <CompactCard
                 key={property.id}
                 property={property}
                 isFavorite={tenant?.favorites.some(
