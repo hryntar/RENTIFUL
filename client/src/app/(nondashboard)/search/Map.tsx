@@ -61,15 +61,17 @@ const Map = () => {
 const createPropertyMarker = (property: Property, map: mapboxgl.Map) => {
   const marker = new mapboxgl.Marker()
     .setLngLat([property.location.coordinates.longitude, property.location.coordinates.latitude])
-    .setPopup(new mapboxgl.Popup().setHTML(
-      `<div class="marker-popup">
+    .setPopup(
+      new mapboxgl.Popup().setHTML(
+        `<div class="marker-popup">
           <div class="marker-popup-image"></div>
           <div>
             <a href="/search/${property.id}" target="_blank" class="marker-popup-title">${property.name}</a>
             <p class="marker-popup-price">$${property.pricePerMonth} <span class="marker-popup-price-unit"> / month</span></p>
           </div>
-      </div>`
-    ))
+      </div>`,
+      ),
+    )
     .addTo(map);
 
   return marker;

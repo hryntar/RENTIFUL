@@ -10,7 +10,6 @@ import { api } from "./api";
 
 import globalReducer from ".";
 
-
 /* REDUX STORE */
 const rootReducer = combineReducers({
   global: globalReducer,

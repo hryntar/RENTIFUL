@@ -3,8 +3,8 @@ import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 
 import { Manager, Property, Tenant } from "@/types/prismaTypes";
 import { cleanParams, createNewUserInDatabase } from "@/lib/utils";
-import { FiltersState } from ".";
 
+import { FiltersState } from ".";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -18,7 +18,7 @@ export const api = createApi({
       }
 
       return headers;
-    }
+    },
   }),
   reducerPath: "api",
   tagTypes: ["Managers", "Tenants", "Properties"],
@@ -31,31 +31,37 @@ export const api = createApi({
           const user = await getCurrentUser();
           const userRole = idToken?.payload["custom:role"] as string;
 
-          const endpoint = userRole === "manager" ? `/managers/${user.userId}` : `/tenants/${user.userId}`;
+          const endpoint =
+            userRole === "manager" ? `/managers/${user.userId}` : `/tenants/${user.userId}`;
 
           let userDetailsResponse = await fetchWithBQ(endpoint);
 
           // if no user details, create a new user
           if (userDetailsResponse.error && userDetailsResponse.error.status === 404) {
-            userDetailsResponse = await createNewUserInDatabase(user, idToken, userRole, fetchWithBQ);
+            userDetailsResponse = await createNewUserInDatabase(
+              user,
+              idToken,
+              userRole,
+              fetchWithBQ,
+            );
           }
 
           return {
             data: {
               cognitoInfo: {
-                ...user
+                ...user,
               },
               userInfo: userDetailsResponse.data as Tenant | Manager,
-              userRole
-            }
-          }
-
-        } catch (error: any) {
+              userRole,
+            },
+          };
+        } catch (error: unknown) {
           return {
-            error: error.message || "Couldn't fetch user data"
-          }
+            error: error instanceof Error ? error.message : "Couldn't fetch user data",
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          } as any;
         }
-      }
+      },
     }),
 
     // manager related endpoints
@@ -63,9 +69,9 @@ export const api = createApi({
       query: ({ cognitoId, ...updatedManager }) => ({
         url: `/managers/${cognitoId}`,
         method: "PUT",
-        body: updatedManager
+        body: updatedManager,
       }),
-      invalidatesTags: (result) => [{ type: "Managers", id: result?.id }]
+      invalidatesTags: (result) => [{ type: "Managers", id: result?.id }],
     }),
 
     // property related endpoints
@@ -92,48 +98,48 @@ export const api = createApi({
       providesTags: (result) =>
         result
           ? [
-            ...result.map(({ id }) => ({ type: "Properties" as const, id })),
-            { type: "Properties", id: "LIST" }
-          ]
-          : [{ type: "Properties", id: "LIST" }]
+              ...result.map(({ id }) => ({ type: "Properties" as const, id })),
+              { type: "Properties", id: "LIST" },
+            ]
+          : [{ type: "Properties", id: "LIST" }],
     }),
 
     // tenant related endpoints
     getTenant: build.query<Tenant, string>({
       query: (cognitoId) => `tenants/${cognitoId}`,
-      providesTags: (result) => [{ type: "Tenants", id: result?.id }]
+      providesTags: (result) => [{ type: "Tenants", id: result?.id }],
     }),
 
     updateTenantSettings: build.mutation<Tenant, { cognitoId: string } & Partial<Tenant>>({
       query: ({ cognitoId, ...updatedTenant }) => ({
         url: `/tenants/${cognitoId}`,
         method: "PUT",
-        body: updatedTenant
+        body: updatedTenant,
       }),
-      invalidatesTags: (result) => [{ type: "Tenants", id: result?.id }]
+      invalidatesTags: (result) => [{ type: "Tenants", id: result?.id }],
     }),
 
-    addFavoriteProperty: build.mutation<Tenant, { cognitoId: string, propertyId: number }>({
+    addFavoriteProperty: build.mutation<Tenant, { cognitoId: string; propertyId: number }>({
       query: ({ cognitoId, propertyId }) => ({
         url: `tenants/${cognitoId}/favorites/${propertyId}`,
-        method: "POST"
+        method: "POST",
       }),
       invalidatesTags: (result) => [
         { type: "Tenants", id: result?.id },
-        { type: "Properties", id: "LIST" }
-      ]
+        { type: "Properties", id: "LIST" },
+      ],
     }),
 
-    removeFavoriteProperty: build.mutation<Tenant, { cognitoId: string, propertyId: number }>({
+    removeFavoriteProperty: build.mutation<Tenant, { cognitoId: string; propertyId: number }>({
       query: ({ cognitoId, propertyId }) => ({
         url: `tenants/${cognitoId}/favorites/${propertyId}`,
-        method: "DELETE"
+        method: "DELETE",
       }),
       invalidatesTags: (result) => [
         { type: "Tenants", id: result?.id },
-        { type: "Properties", id: "LIST" }
-      ]
-    })
+        { type: "Properties", id: "LIST" },
+      ],
+    }),
   }),
 });
 
@@ -144,5 +150,5 @@ export const {
   useGetPropertiesQuery,
   useGetTenantQuery,
   useAddFavoritePropertyMutation,
-  useRemoveFavoritePropertyMutation
+  useRemoveFavoritePropertyMutation,
 } = api;

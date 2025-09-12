@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 
 const containerVariants = {
-  hidden: {opacity: 0},
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
@@ -14,8 +14,8 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: {opacity: 0, y: 20},
-  visible: {opacity: 1, y: 0},
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
 };
 
 const DiscoverSection = () => {
@@ -23,7 +23,7 @@ const DiscoverSection = () => {
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{once: true, amount: 0.8}}
+      viewport={{ once: true, amount: 0.8 }}
       variants={containerVariants}
       className="py-12 bg-white mb-16"
     >

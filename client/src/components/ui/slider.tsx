@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 
-import {cn} from "../../lib/utils";
+import { cn } from "../../lib/utils";
 
 function Slider({
   className,
@@ -44,7 +44,7 @@ function Slider({
           data-slot="slider-range"
         />
       </SliderPrimitive.Track>
-      {Array.from({length: _values.length}, (_, index) => (
+      {Array.from({ length: _values.length }, (_, index) => (
         <SliderPrimitive.Thumb
           key={index}
           className="border-primary bg-background ring-ring/50 block size-4 shrink-0 rounded-full border shadow-sm transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
@@ -55,4 +55,4 @@ function Slider({
   );
 }
 
-export {Slider};
+export { Slider };

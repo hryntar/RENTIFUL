@@ -27,6 +27,7 @@ const eslintConfig = [
       "**/node_modules/**",
       "**/coverage/**",
       "**/build/**",
+      "**/prismaTypes.d.ts",
     ],
   },
   ...compat.extends(
@@ -121,6 +122,10 @@ const eslintConfig = [
           next: ["const", "let", "var"],
         },
       ],
+      // More lenient rules for common patterns
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off",
+      "@typescript-eslint/no-unnecessary-type-constraint": "off",
     },
     settings: {
       react: {

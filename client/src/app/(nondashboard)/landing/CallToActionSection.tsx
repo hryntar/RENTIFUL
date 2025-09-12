@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 const CallToActionSection = () => {
@@ -15,10 +15,10 @@ const CallToActionSection = () => {
       />
       <div className="absolute inset-0 bg-black/50"></div>
       <motion.div
-        initial={{opacity: 0, y: 20}}
-        transition={{duration: 0.5}}
-        whileInView={{opacity: 1, y: 0}}
-        viewport={{once: true}}
+        initial={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.5 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
         className="relative max-w-4xl xl:max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 py-12"
       >
         <div className="flex flex-col md:flex-row items-center justify-between text-center ">
@@ -32,7 +32,7 @@ const CallToActionSection = () => {
             <div className="flex justify-center md:justify-start gap-4">
               <button
                 className="inline-block text-primary-700 bg-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-500 hover:text-primary-50 transition-colors duration-300"
-                onClick={() => window.scrollTo({top: 0, behavior: "smooth"})}
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 Search
               </button>

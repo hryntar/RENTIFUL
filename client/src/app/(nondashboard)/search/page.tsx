@@ -19,7 +19,7 @@ const SearchPage = () => {
   const isFiltersFullOpen = useAppSelector((state) => state.global.isFiltersFullOpen);
 
   useEffect(() => {
-    const initialFilters = Array.from(searchParams.entries()).reduce((acc: any, [key, value]) => {
+    const initialFilters = Array.from(searchParams.entries()).reduce((acc: Record<string, unknown>, [key, value]) => {
       if (key === "priceRange" || key === "squareFeet") {
         acc[key] = value.split(",").map((v) => (v === "" ? null : Number(v)));
       } else if (key === "coordinates") {

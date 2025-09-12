@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
   faTwitter,
@@ -57,9 +57,7 @@ const FooterSection = () => {
           </div>
         </div>
         <div className="mt-8 text-center text-sm text-gray-500 flex justify-center space-x-4">
-          <span>
-            &copy; {new Date().getFullYear()} RENTIFUL. All rights reserved.
-          </span>
+          <span>&copy; {new Date().getFullYear()} RENTIFUL. All rights reserved.</span>
           <Link href="/privacy">Privacy Policy</Link>
           <Link href="/terms">Terms of Service</Link>
           <Link href="/cookies">Cookie Policy</Link>

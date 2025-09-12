@@ -1,5 +1,11 @@
 import { usePathname } from "next/navigation";
 import React from "react";
+import { Building, FileText, Heart, Home, Menu, Settings, X } from "lucide-react";
+import Link from "next/link";
+
+import { NAVBAR_HEIGHT } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+
 import {
   Sidebar,
   SidebarContent,
@@ -9,10 +15,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "./ui/sidebar";
-import { Building, FileText, Heart, Home, Menu, Settings, X } from "lucide-react";
-import { NAVBAR_HEIGHT } from "@/lib/constants";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 const AppSidebar = ({ userType }: AppSidebarProps) => {
   const pathname = usePathname();
@@ -92,8 +94,14 @@ const AppSidebar = ({ userType }: AppSidebarProps) => {
                 >
                   <Link href={link.href} className="w-full" scroll={false}>
                     <div className="flex items-center gap-3">
-                      <link.icon className={`h-5 w-5 ${isActive ? "text-blue-600" : "text-gray-600"}`} />
-                      <span className={`font-medium ${isActive ? "text-blue-600" : "text-gray-600"}`}>{link.label}</span>
+                      <link.icon
+                        className={`h-5 w-5 ${isActive ? "text-blue-600" : "text-gray-600"}`}
+                      />
+                      <span
+                        className={`font-medium ${isActive ? "text-blue-600" : "text-gray-600"}`}
+                      >
+                        {link.label}
+                      </span>
                     </div>
                   </Link>
                 </SidebarMenuButton>

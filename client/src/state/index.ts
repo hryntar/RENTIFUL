@@ -31,7 +31,7 @@ export const initialState: InitialStateTypes = {
     priceRange: [null, null],
     squareFeet: [null, null],
     coordinates: [-118.25, 34.05],
-  }
+  },
 };
 
 export const globalSlice = createSlice({
@@ -41,8 +41,8 @@ export const globalSlice = createSlice({
     setFilters: (state, action: PayloadAction<Partial<FiltersState>>) => {
       state.filters = {
         ...state.filters,
-        ...action.payload
-      }
+        ...action.payload,
+      };
     },
     toggleFiltersFullOpen: (state) => {
       state.isFiltersFullOpen = !state.isFiltersFullOpen;

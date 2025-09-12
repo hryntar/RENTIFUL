@@ -2,10 +2,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 
 const containerVariants = {
-  hidden: {opacity: 0, y: 50},
+  hidden: { opacity: 0, y: 50 },
   visible: {
     opacity: 1,
     y: 0,
@@ -17,8 +17,8 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: {opacity: 0, y: 20},
-  visible: {opacity: 1, y: 0},
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
 };
 
 const FeaturesSection = () => {
@@ -26,7 +26,7 @@ const FeaturesSection = () => {
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{once: true}}
+      viewport={{ once: true }}
       variants={containerVariants}
       className="py-24 px-6 sm:px-8 lg:px-12 xl:px-16 bg-white"
     >
@@ -83,26 +83,26 @@ const FeatureCard = ({
   return (
     <div className="text-center flex flex-col justify-between h-full">
       <div>
-         <div className="p-4 rounded-lg mb-4 flex items-center justify-center h-48">
-           <Image
-             src={imageSrc}
-             alt={title}
-             width={400}
-             height={400}
-             className="w-full h-full object-contain"
-           />
-         </div>
-         <h3 className="text-xl font-semibold mb-2">{title}</h3>
-         <p className="mb-4">{description}</p>
+        <div className="p-4 rounded-lg mb-4 flex items-center justify-center h-48">
+          <Image
+            src={imageSrc}
+            alt={title}
+            width={400}
+            height={400}
+            className="w-full h-full object-contain"
+          />
+        </div>
+        <h3 className="text-xl font-semibold mb-2">{title}</h3>
+        <p className="mb-4">{description}</p>
       </div>
       <div>
-         <Link
-           href={linkHref}
-           className="inline-block border border-gray-300 rounded px-4 py-2 hover:bg-gray-100 transition-colors"
-           scroll={false}
-         >
-           {linkText}
-         </Link>
+        <Link
+          href={linkHref}
+          className="inline-block border border-gray-300 rounded px-4 py-2 hover:bg-gray-100 transition-colors"
+          scroll={false}
+        >
+          {linkText}
+        </Link>
       </div>
     </div>
   );

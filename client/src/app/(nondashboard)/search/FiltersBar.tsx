@@ -23,8 +23,9 @@ const FiltersBar = () => {
   const { filters, isFiltersFullOpen, viewMode } = useAppSelector((state) => state.global);
   const [searchInput, setSearchInput] = useState(filters.location);
 
-  const handleFilterChange = (key: string, value: any, isMin: boolean | null) => {
-    let newValue = value;
+  const handleFilterChange = (key: string, value: string | number | number[] | "any", isMin: boolean | null) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let newValue: any = value;
 
     if (key === "priceRange" || key === "squareFeet") {
       const currentArrayRange = [...filters[key]];
@@ -37,7 +38,7 @@ const FiltersBar = () => {
 
       newValue = currentArrayRange;
     } else if (key === "coordinates") {
-      newValue = value === "any" ? [0, 0] : value.map(Number);
+      newValue = value === "any" ? [0, 0] : (value as number[]).map(Number);
     } else {
       newValue = value === "any" ? "any" : value;
     }
@@ -173,32 +174,31 @@ const FiltersBar = () => {
             </SelectContent>
           </Select>
         </div>
-
       </div>
-        <div className="flex justify-between items-center gap-4 p-2">
-          <div className="flex border rounded-xl">
-            <Button
-              variant="ghost"
-              className={cn(
-                "px-3 py-1 rounded-none rounded-l-xl hover:bg-primary-600 hover:text-primary-100",
-                viewMode === "list" && "bg-primary-700 text-primary-50",
-              )}
-              onClick={() => dispatch(setViewMode("list"))}
-            >
-              <List className="w-5 h-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              className={cn(
-                "px-3 py-1 rounded-none rounded-r-xl hover:bg-primary-600 hover:text-primary-100",
-                viewMode === "grid" && "bg-primary-700 text-primary-50",
-              )}
-              onClick={() => dispatch(setViewMode("grid"))}
-            >
-              <Grid className="w-5 h-5" />
-            </Button>
-          </div>
+      <div className="flex justify-between items-center gap-4 p-2">
+        <div className="flex border rounded-xl">
+          <Button
+            variant="ghost"
+            className={cn(
+              "px-3 py-1 rounded-none rounded-l-xl hover:bg-primary-600 hover:text-primary-100",
+              viewMode === "list" && "bg-primary-700 text-primary-50",
+            )}
+            onClick={() => dispatch(setViewMode("list"))}
+          >
+            <List className="w-5 h-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            className={cn(
+              "px-3 py-1 rounded-none rounded-r-xl hover:bg-primary-600 hover:text-primary-100",
+              viewMode === "grid" && "bg-primary-700 text-primary-50",
+            )}
+            onClick={() => dispatch(setViewMode("grid"))}
+          >
+            <Grid className="w-5 h-5" />
+          </Button>
         </div>
+      </div>
     </div>
   );
 };

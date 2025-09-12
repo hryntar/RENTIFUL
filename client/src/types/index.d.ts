@@ -1,8 +1,8 @@
-import {LucideIcon} from "lucide-react";
-import {AuthUser} from "aws-amplify/auth";
-import {MotionProps as OriginalMotionProps} from "framer-motion";
+import { LucideIcon } from "lucide-react";
+import { AuthUser } from "aws-amplify/auth";
+import { MotionProps as OriginalMotionProps } from "framer-motion";
 
-import {Manager, Tenant, Property, Application} from "./prismaTypes";
+import { Manager, Tenant, Property, Application } from "./prismaTypes";
 
 declare module "framer-motion" {
   interface MotionProps extends OriginalMotionProps {
