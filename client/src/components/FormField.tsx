@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   ControllerRenderProps,
@@ -7,10 +9,6 @@ import {
   Control,
 } from "react-hook-form";
 import { Edit, X, Plus } from "lucide-react";
-import { registerPlugin } from "filepond";
-import { FilePond } from "react-filepond";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
@@ -18,10 +16,9 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Switch } from "./ui/switch";
+// CSS imports for FilePond (these are fine for SSR)
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 interface FormFieldProps {
   name: string;
@@ -115,18 +112,12 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
           </div>
         );
       case "file":
+        // TODO: Fix file upload component for Docker deployment
         return (
-          <FilePond
-            allowMultiple={true}
-            className={`${inputClassName}`}
-            credits={false}
-            labelIdle={`Drag & Drop your images or <span class="filepond--label-action">Browse</span>`}
-            onupdatefiles={(fileItems) => {
-              const files = fileItems.map((fileItem) => fileItem.file);
-
-              field.onChange(files);
-            }}
-          />
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+            <p>File upload temporarily disabled in Docker build</p>
+            <input multiple type="file" onChange={(e) => field.onChange(e.target.files)} />
+          </div>
         );
       case "number":
         return (

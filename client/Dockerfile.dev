@@ -1,0 +1,14 @@
+# Development Dockerfile for hot reload
+FROM node:22-alpine
+
+# https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine shared library required for use of process.dlopen
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]

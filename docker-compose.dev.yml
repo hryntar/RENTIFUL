@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # Database (same as production)
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: rentiful-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: Rentiful
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - rentiful-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d Rentiful"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  # Backend Server (development mode with hot reload)
+  server-dev:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    container_name: rentiful-server-dev
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "postgresql://postgres:admin@postgres:5432/Rentiful?schema=public"
+      PORT: 3001
+      NODE_ENV: development
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - rentiful-network
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+      - ./server/.env:/app/.env:ro
+
+  # Frontend Client (development mode with hot reload)
+  client-dev:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    container_name: rentiful-client-dev
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:3001
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server-dev
+    networks:
+      - rentiful-network
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+      - /app/.next
+
+  # pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: rentiful-pgadmin-dev
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@rentiful.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - rentiful-network
+
+volumes:
+  postgres_data_dev:
+    driver: local
+
+networks:
+  rentiful-network:
+    driver: bridge
